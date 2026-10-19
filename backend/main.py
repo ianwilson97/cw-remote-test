@@ -28,6 +28,12 @@ def list_todos() -> list[Todo]:
     return list(todos.values())
 
 
+@app.get("/api/todos/count")
+def count_todos() -> dict[str, int]:
+    done = sum(todo.done for todo in todos.values())
+    return {"total": len(todos), "done": done, "remaining": len(todos) - done}
+
+
 @app.post("/api/todos", status_code=201)
 def create_todo(body: TodoIn) -> Todo:
     global next_id
